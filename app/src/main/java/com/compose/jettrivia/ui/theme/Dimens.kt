@@ -5,6 +5,7 @@ import androidx.compose.ui.unit.sp
 
 val DimenPadding3 = 3.dp
 val DimenPadding4 = 4.dp
+val DimenPadding6 = 6.dp
 val DimenPadding12 = 12.dp
 val DimenPadding16 = 16.dp
 val DimenPadding20 = 20.dp
@@ -20,3 +21,4 @@ val DimenHeight45 = 45.dp
 val DimenWidth4 = 4.dp
 
 val DimenCorner15 = 15.dp
+val DimenCorner34 = 34.dp

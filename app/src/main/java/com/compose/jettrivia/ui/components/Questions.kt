@@ -7,9 +7,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,14 +30,27 @@ import com.compose.jettrivia.ui.viewmodels.QuestionViewModel
 
 @Composable
 fun Questions(viewModel: QuestionViewModel) {
+
     val questions = viewModel.data.value.data?.toMutableList()
+
+    val questionIndex = remember {
+        mutableStateOf(0)
+    }
+
     if (viewModel.data.value.loading == true) {
         CircularProgressIndicator()
         Log.d("TAG", "Loading...")
     } else {
         if (questions != null) {
-            QuestionDisplay(questionItem = questions.first()) {
-
+            val question = try {
+                questions[questionIndex.value]
+            } catch (e: Exception) {
+                null
+            }
+            question?.let {
+                QuestionDisplay(it, questionIndex, viewModel) {
+                    questionIndex.value += 1
+                }
             }
         }
     }
@@ -44,9 +59,9 @@ fun Questions(viewModel: QuestionViewModel) {
 @Composable
 fun QuestionDisplay(
     questionItem: QuestionItem,
-    //questionIndex: MutableState<Int>,
-    //viewModel: QuestionViewModel,
-    onNextClicked: () -> Unit
+    questionIndex: MutableState<Int>,
+    viewModel: QuestionViewModel,
+    onNextClicked: (Int) -> Unit
 ) {
 
     val choicesState = remember(questionItem) {
@@ -72,8 +87,7 @@ fun QuestionDisplay(
     val pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
     Surface(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(DimenPadding4),
+            .fillMaxSize(),
         color = DarkPurple
     ) {
         Column(
@@ -81,7 +95,7 @@ fun QuestionDisplay(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.Start
         ) {
-            QuestionTracker()
+            QuestionTracker(questionIndex.value)
             DrawDottedLine(pathEffect)
 
             Column {
@@ -129,9 +143,37 @@ fun QuestionDisplay(
                         )
                     )
 
-                    Text(text = answerText)
+                    val annotatedString = buildAnnotatedString {
+                        withStyle(
+                            style = SpanStyle(
+                                fontWeight = FontWeight.Light,
+                                color = if (correctAnswerState.value == true && index == answerState.value) Color.Green
+                                else if (correctAnswerState.value == false && index == answerState.value) Color.Red
+                                else OffWhite,
+                                fontSize = DimenFontSize17
+                            )
+                        ) {
+                            append(answerText)
+                        }
+                    }
+                    Text(text = annotatedString, modifier = Modifier.padding(DimenPadding6))
 
                 }
+            }
+
+            Button(
+                onClick = { onNextClicked(questionIndex.value) }, modifier = Modifier
+                    .padding(DimenPadding3)
+                    .align(CenterHorizontally),
+                shape = RoundedCornerShape(DimenCorner34),
+                colors = ButtonDefaults.buttonColors(backgroundColor = LightBlue)
+            ) {
+                Text(
+                    text = "Next",
+                    modifier = Modifier.padding(DimenPadding4),
+                    color = OffWhite,
+                    fontSize = DimenFontSize17
+                )
             }
 
         }
