@@ -5,13 +5,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -34,8 +33,10 @@ fun Questions(viewModel: QuestionViewModel) {
         CircularProgressIndicator()
         Log.d("TAG", "Loading...")
     } else {
-        questions?.forEach {
-            Log.d("TAG", "Questions: ${it.question}")
+        if (questions != null) {
+            QuestionDisplay(questionItem = questions.first()) {
+
+            }
         }
     }
 }
@@ -43,13 +44,29 @@ fun Questions(viewModel: QuestionViewModel) {
 @Composable
 fun QuestionDisplay(
     questionItem: QuestionItem,
-    questionIndex: MutableState<Int>,
-    viewModel: QuestionViewModel,
+    //questionIndex: MutableState<Int>,
+    //viewModel: QuestionViewModel,
     onNextClicked: () -> Unit
 ) {
 
     val choicesState = remember(questionItem) {
         questionItem.choices.toMutableList()
+    }
+
+    val answerState = remember(questionItem) {
+        mutableStateOf<Int?>(null)
+    }
+
+    val correctAnswerState = remember(questionItem) {
+        mutableStateOf<Boolean?>(null)
+    }
+
+    val updateAnswer: (Int) -> Unit = remember(questionItem) {
+        {
+            answerState.value = it
+            correctAnswerState.value = choicesState[it] == questionItem.answer
+        }
+
     }
 
     val pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
@@ -69,7 +86,7 @@ fun QuestionDisplay(
 
             Column {
                 Text(
-                    text = "Whats the meaning",
+                    text = questionItem.question,
                     modifier = Modifier
                         .padding(DimenPadding4)
                         .align(Alignment.Start)
@@ -83,7 +100,7 @@ fun QuestionDisplay(
             }
 
             //Choices
-            choicesState.forEach {
+            choicesState.forEachIndexed { index, answerText ->
                 Row(
                     modifier = Modifier
                         .padding(DimenPadding3)
@@ -97,8 +114,22 @@ fun QuestionDisplay(
                             ), shape = RoundedCornerShape(DimenCorner15)
                         )
                         .clip(RoundedCornerShape(percent = 50))
-                        .background(Color.Transparent)
+                        .background(Color.Transparent),
+                    verticalAlignment = CenterVertically
                 ) {
+
+                    RadioButton(
+                        selected = (answerState.value == index), onClick = {
+                            updateAnswer(index)
+                        }, modifier = Modifier.padding(DimenPadding16),
+                        colors = RadioButtonDefaults.colors(
+                            selectedColor = if (correctAnswerState.value == true) {
+                                Color.Green.copy(alpha = 0.2f)
+                            } else Color.Red.copy(alpha = 0.2f)
+                        )
+                    )
+
+                    Text(text = answerText)
 
                 }
             }
