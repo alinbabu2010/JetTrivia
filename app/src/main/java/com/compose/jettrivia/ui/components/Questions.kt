@@ -95,6 +95,10 @@ fun QuestionDisplay(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.Start
         ) {
+
+            if (questionIndex.value >= 3)
+                ShowProgress(score = questionIndex.value)
+
             QuestionTracker(questionIndex.value)
             DrawDottedLine(pathEffect)
 
