@@ -5,7 +5,9 @@ import com.compose.jettrivia.data.models.DataOrException
 import com.compose.jettrivia.data.models.QuestionItem
 import com.compose.jettrivia.network.QuestionApi
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class QuestionRepository @Inject constructor(private val questionApi: QuestionApi) {
 
     private val dataOrException = DataOrException<ArrayList<QuestionItem>, Boolean, Exception>()
