@@ -33,5 +33,9 @@ class QuestionViewModel @Inject constructor(
         }
     }
 
+    fun getTotalQuestions(): Int {
+        return data.value.data?.size ?: 0
+    }
+
 
 }

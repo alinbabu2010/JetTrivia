@@ -99,7 +99,7 @@ fun QuestionDisplay(
             if (questionIndex.value >= 3)
                 ShowProgress(score = questionIndex.value)
 
-            QuestionTracker(questionIndex.value)
+            QuestionTracker(questionIndex.value, viewModel.getTotalQuestions())
             DrawDottedLine(pathEffect)
 
             Column {
