@@ -9,3 +9,5 @@ val DimenPadding20 = 20.dp
 
 val DimenFontSize14 = 14.sp
 val DimenFontSize27 = 27.sp
+
+val DimenHeight1 = 1.dp

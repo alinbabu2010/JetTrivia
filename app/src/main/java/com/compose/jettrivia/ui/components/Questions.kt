@@ -11,6 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -37,6 +38,7 @@ fun Questions(viewModel: QuestionViewModel) {
 @Preview
 @Composable
 fun QuestionDisplay() {
+    val pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
     Surface(
         modifier = Modifier
             .fillMaxSize()
@@ -49,6 +51,7 @@ fun QuestionDisplay() {
             horizontalAlignment = Alignment.Start
         ) {
             QuestionTracker()
+            DrawDottedLine(pathEffect)
         }
 
     }
