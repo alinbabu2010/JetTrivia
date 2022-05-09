@@ -38,7 +38,14 @@ fun Questions(viewModel: QuestionViewModel) {
     }
 
     if (viewModel.data.value.loading == true) {
-        CircularProgressIndicator()
+        Column(
+            modifier = Modifier.size(DimenProgressSize),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = CenterHorizontally
+        ) {
+            CircularProgressIndicator(strokeWidth = DimenProgressStroke)
+        }
+
         Log.d("TAG", "Loading...")
     } else {
         if (questions != null) {

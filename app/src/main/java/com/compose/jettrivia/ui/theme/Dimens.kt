@@ -24,3 +24,6 @@ val DimenWidth4 = 4.dp
 val DimenCorner15 = 15.dp
 val DimenCorner23 = 23.dp
 val DimenCorner34 = 34.dp
+
+val DimenProgressSize = 150.dp
+val DimenProgressStroke = 5.dp
