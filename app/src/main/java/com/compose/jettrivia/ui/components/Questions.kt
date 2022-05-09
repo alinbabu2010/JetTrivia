@@ -6,10 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterVertically
@@ -88,7 +85,10 @@ fun QuestionDisplay(
             answerState.value = it
             correctAnswerState.value = choicesState[it] == questionItem.answer
         }
+    }
 
+    var scoreState by remember {
+        mutableStateOf(0)
     }
 
     val pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
@@ -104,7 +104,8 @@ fun QuestionDisplay(
         ) {
 
             if (questionIndex.value >= 3)
-                ShowProgress(score = questionIndex.value)
+                if (correctAnswerState.value == true) scoreState = questionIndex.value
+            ShowProgress(score = scoreState)
 
             QuestionTracker(questionIndex.value, viewModel.getTotalQuestions())
             DrawDottedLine(pathEffect)
