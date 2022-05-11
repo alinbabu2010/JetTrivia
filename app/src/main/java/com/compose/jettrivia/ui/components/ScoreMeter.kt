@@ -17,7 +17,11 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import com.compose.jettrivia.ui.theme.*
+import com.compose.jettrivia.ui.theme.LightPurple
+import com.compose.jettrivia.ui.theme.OffPink
+import com.compose.jettrivia.ui.theme.OffPurple
+import com.compose.jettrivia.ui.theme.OffWhite
+import com.compose.jettrivia.util.*
 
 @Preview
 @Composable

@@ -24,6 +24,7 @@ import androidx.compose.ui.text.withStyle
 import com.compose.jettrivia.data.models.QuestionItem
 import com.compose.jettrivia.ui.theme.*
 import com.compose.jettrivia.ui.viewmodels.QuestionViewModel
+import com.compose.jettrivia.util.*
 
 @Composable
 fun Questions(viewModel: QuestionViewModel) {

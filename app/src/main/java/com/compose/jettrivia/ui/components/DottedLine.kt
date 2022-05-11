@@ -7,8 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.PathEffect
-import com.compose.jettrivia.ui.theme.DimenHeight1
 import com.compose.jettrivia.ui.theme.LightGray
+import com.compose.jettrivia.util.DimenHeight1
 
 @Composable
 fun DrawDottedLine(pathEffect: PathEffect) {

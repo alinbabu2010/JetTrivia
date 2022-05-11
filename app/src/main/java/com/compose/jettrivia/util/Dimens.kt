@@ -1,4 +1,4 @@
-package com.compose.jettrivia.ui.theme
+package com.compose.jettrivia.util
 
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
